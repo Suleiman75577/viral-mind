@@ -1,0 +1,231 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#101020">
+<title>VIRAL MIND - Think Different</title>
+<style>
+*{box-sizing:border-box}
+body{
+ margin:0;min-height:100vh;
+ font-family:system-ui,-apple-system,sans-serif;
+ background:linear-gradient(145deg,#15112e,#10172c 55%,#24112d);
+ color:white;padding:22px 16px;
+}
+button{font:inherit;cursor:pointer}
+.app{max-width:520px;margin:auto}
+.top{display:flex;justify-content:space-between;align-items:center}
+.logo{font-size:25px;font-weight:950;letter-spacing:1px}
+.logo span{color:#ff65a3}
+.lang{background:#ffffff16;color:white;border:1px solid #ffffff30;border-radius:12px;padding:9px}
+.hero{text-align:center;padding:48px 5px 25px}
+.tag{display:inline-block;background:#ffffff16;border:1px solid #ffffff30;padding:7px 14px;border-radius:30px;font-size:12px}
+h1{font-size:43px;line-height:1.08;margin:20px 0 12px;letter-spacing:-2px}
+.gradient{background:linear-gradient(90deg,#ff70a6,#a88bff,#52dcff);background-clip:text;color:transparent}
+.subtitle{color:#b9bbd1;line-height:1.7;font-size:15px}
+.card{background:#ffffff0d;border:1px solid #ffffff20;border-radius:24px;padding:23px;margin:15px 0;box-shadow:0 15px 45px #0003}
+.primary{width:100%;border:0;border-radius:15px;padding:17px;background:linear-gradient(100deg,#ff579b,#9465ff,#4e9fff);color:white;font-weight:850;font-size:17px}
+.secondary{width:100%;border:1px solid #ffffff30;border-radius:14px;padding:14px;background:#ffffff12;color:white;font-weight:700;margin-top:11px}
+.small{color:#aeb0c8;font-size:12px;text-align:center;margin-top:16px}
+.hidden{display:none!important}
+.progress{height:8px;background:#ffffff20;border-radius:20px;overflow:hidden;margin:16px 0 25px}
+.bar{height:100%;width:0;background:linear-gradient(90deg,#ff579b,#a88bff,#52dcff);transition:.3s}
+.row{display:flex;justify-content:space-between;color:#b8bad0;font-size:13px}
+.question{font-size:25px;line-height:1.35;margin:24px 0}
+.option{display:block;width:100%;text-align:left;padding:16px;margin:10px 0;border:1px solid #ffffff25;border-radius:15px;background:#ffffff0b;color:white;font-weight:650}
+.option:active,.option.selected{border-color:#b18cff;background:#a47aff25}
+.option:disabled{opacity:.75}
+.emoji{font-size:23px;margin-right:10px}
+.result{text-align:center}
+.score{font-size:75px;font-weight:950;background:linear-gradient(90deg,#ff70a6,#a88bff,#52dcff);background-clip:text;color:transparent;margin:12px}
+.footer{text-align:center;color:#898ca8;font-size:11px;margin:30px 0 10px}
+[dir=rtl] .option{text-align:right}
+[dir=rtl] .emoji{margin-right:0;margin-left:10px}
+</style>
+</head>
+<body>
+<div class="app">
+ <header class="top">
+  <div class="logo">VIRAL <span>MIND</span></div>
+  <select class="lang" id="lang" aria-label="Language">
+   <option value="en">🇬🇧 EN</option>
+   <option value="ar">🇸🇦 AR</option>
+   <option value="de">🇩🇪 DE</option>
+  </select>
+ </header>
+
+ <section id="home">
+  <div class="hero">
+   <div class="tag" id="tag">🌍 THE WORLD THINKS DIFFERENTLY</div>
+   <h1 id="heading">Can you<br><span class="gradient">read minds?</span></h1>
+   <p class="subtitle" id="intro">5 questions. One challenge.<br>Discover how well you predict other people's choices.</p>
+  </div>
+  <div class="card">
+   <p id="ready" style="text-align:center;font-weight:750;font-size:18px">🧠 Ready to challenge your mind?</p>
+   <button class="primary" id="start">START PLAYING →</button>
+   <p class="small" id="free">⚡ Free to play · No registration required</p>
+  </div>
+ </section>
+
+ <section id="game" class="hidden">
+  <div class="row"><span id="round">QUESTION 1 / 5</span><span id="points">0 POINTS</span></div>
+  <div class="progress"><div class="bar" id="bar"></div></div>
+  <div class="card">
+   <div class="tag" id="category">🤔 THINK FAST</div>
+   <h2 class="question" id="question"></h2>
+   <div id="options"></div>
+  </div>
+  <p class="small" id="hint">Choose the answer you think most people would pick.</p>
+</section>
+
+<section id="result" class="hidden">
+ <div class="hero result">
+  <div class="tag" id="finished">🏆 CHALLENGE COMPLETED</div>
+  <h1 id="resultTitle">Your mind<br><span class="gradient">is unique!</span></h1>
+  <div class="score" id="score">0%</div>
+  <p class="subtitle" id="resultText"></p>
+ </div>
+ <div class="card">
+  <p id="shareText" style="text-align:center;font-weight:750">🔥 Challenge your friends!</p>
+  <button class="primary" id="share">SHARE MY RESULT ↗</button>
+  <button class="secondary" id="again">PLAY AGAIN ↻</button>
+  <p class="small" id="demoNote"></p>
+ </div>
+</section>
+<div class="footer">VIRAL MIND © 2026 · THINK DIFFERENTLY</div>
+</div>
+
+<script>
+const translations={
+ en:{
+ tag:"🌍 THE WORLD THINKS DIFFERENTLY",heading:'Can you<br><span class="gradient">read minds?</span>',
+ intro:"5 questions. One challenge.<br>Discover how well you predict other people's choices.",
+ ready:"🧠 Ready to challenge your mind?",start:"START PLAYING →",free:"⚡ Free to play · No registration required",
+ question:"QUESTION",points:"POINTS",category:"🤔 THINK FAST",hint:"Choose the answer you think most people would pick.",
+ finished:"🏆 CHALLENGE COMPLETED",resultTitle:'Your mind<br><span class="gradient">is unique!</span>',
+ resultText:"Your demo prediction score is",shareText:"🔥 Challenge your friends!",share:"SHARE MY RESULT ↗",again:"PLAY AGAIN ↻",
+ demo:"Demo score only. Real global statistics will arrive after launch.",
+ questions:[
+ ["You find a mysterious door. What do you do?","🚪 Open it immediately","🔍 Look for clues first","🏃 Walk away","👀 Ask someone else"],
+ ["Choose your dream superpower.","⏳ Stop time","🧠 Read minds","✈️ Fly","✨ Teleport"],
+ ["You have one free day. What sounds best?","🌍 Travel somewhere new","🎮 Play games","👨‍👩‍👧 Spend time with family","😴 Sleep all day"],
+ ["Which matters most in life?","❤️ Love","💰 Money","🕊️ Freedom","🏆 Success"],
+ ["You discover a secret about the future. What next?","🤫 Keep it secret","📢 Tell everyone","🔄 Try to change it","🧪 Test if it's true"]
+ ]},
+ ar:{
+ tag:"🌍 العالم يفكر بطرق مختلفة",heading:'هل تستطيع<br><span class="gradient">قراءة العقول؟</span>',
+ intro:"5 أسئلة. تحدٍ واحد.<br>اكتشف قدرتك على توقع اختيارات الآخرين.",
+ ready:"🧠 هل أنت مستعد لتحدي عقلك؟",start:"ابدأ اللعب ←",free:"⚡ مجانية · دون تسجيل",
+ question:"السؤال",points:"نقطة",category:"🤔 فكّر بسرعة",hint:"اختر الإجابة التي تعتقد أن معظم الناس سيختارونها.",
+ finished:"🏆 اكتمل التحدي",resultTitle:'عقلك<br><span class="gradient">مميز!</span>',
+ resultText:"نتيجتك التجريبية في التوقع:",shareText:"🔥 تحدَّ أصدقاءك!",share:"شارك نتيجتي ↗",again:"العب مجدداً ↻",
+ demo:"هذه نتيجة تجريبية. ستتوفر الإحصائيات العالمية الحقيقية بعد الإطلاق.",
+ questions:[
+ ["وجدت باباً غامضاً. ماذا تفعل؟","🚪 أفتحه فوراً","🔍 أبحث عن أدلة أولاً","🏃 أبتعد عنه","👀 أسأل شخصاً آخر"],
+ ["اختر قوتك الخارقة المفضلة.","⏳ إيقاف الزمن","🧠 قراءة الأفكار","✈️ الطيران","✨ الانتقال الآني"],
+ ["لديك يوم إجازة. ماذا تختار؟","🌍 السفر إلى مكان جديد","🎮 لعب الألعاب","👨‍👩‍👧 قضاء الوقت مع العائلة","😴 النوم طوال اليوم"],
+ ["ما الأهم في الحياة؟","❤️ الحب","💰 المال","🕊️ الحرية","🏆 النجاح"],
+ ["اكتشفت سراً عن المستقبل. ماذا تفعل؟","🤫 أحتفظ به لنفسي","📢 أخبر الجميع","🔄 أحاول تغييره","🧪 أختبر إن كان صحيحاً"]
+ ]},
+ de:{
+ tag:"🌍 DIE WELT DENKT ANDERS",heading:'Kannst du<br><span class="gradient">Gedanken lesen?</span>',
+ intro:"5 Fragen. Eine Herausforderung.<br>Finde heraus, wie gut du andere einschätzen kannst.",
+ ready:"🧠 Bereit für die Herausforderung?",start:"JETZT SPIELEN →",free:"⚡ Kostenlos · Keine Anmeldung",
+ question:"FRAGE",points:"PUNKTE",category:"🤔 DENK SCHNELL",hint:"Wähle die Antwort, die deiner Meinung nach die meisten wählen würden.",
+ finished:"🏆 HERAUSFORDERUNG GESCHAFFT",resultTitle:'Dein Verstand<br><span class="gradient">ist einzigartig!</span>',
+ resultText:"Dein experimenteller Vorhersagewert:",shareText:"🔥 Fordere deine Freunde heraus!",share:"ERGEBNIS TEILEN ↗",again:"NOCHMAL SPIELEN ↻",
+ demo:"Nur ein Demo-Ergebnis. Echte weltweite Statistiken folgen nach dem Start.",
+ questions:[
+ ["Du findest eine geheimnisvolle Tür. Was tust du?","🚪 Sofort öffnen","🔍 Erst Hinweise suchen","🏃 Weggehen","👀 Jemanden fragen"],
+ ["Welche Superkraft wählst du?","⏳ Zeit anhalten","🧠 Gedanken lesen","✈️ Fliegen","✨ Teleportieren"],
+ ["Du hast einen freien Tag. Was machst du?","🌍 Neue Orte entdecken","🎮 Spiele spielen","👨‍👩‍👧 Zeit mit Familie","😴 Den ganzen Tag schlafen"],
+ ["Was ist im Leben am wichtigsten?","❤️ Liebe","💰 Geld","🕊️ Freiheit","🏆 Erfolg"],
+ ["Du entdeckst ein Geheimnis über die Zukunft. Was nun?","🤫 Geheim halten","📢 Allen erzählen","🔄 Es verändern","🧪 Es überprüfen"]
+ ]}
+};
+
+let lang="en",index=0,answers=[],score=0;
+const $=id=>document.getElementById(id);
+function show(id){
+ ["home","game","result"].forEach(x=>$(x).classList.toggle("hidden",x!==id));
+}
+function setLanguage(value){
+ lang=value;
+ const t=translations[lang];
+ document.documentElement.lang=lang;
+ document.documentElement.dir=lang==="ar"?"rtl":"ltr";
+ ["tag","heading","intro","ready","start","free"].forEach(k=>$(k).innerHTML=t[k]);
+ $("lang").value=lang;
+}
+$("lang").addEventListener("change",e=>setLanguage(e.target.value));
+function startGame(){
+ index=0;answers=[];score=0;
+ show("game");renderQuestion();
+}
+function renderQuestion(){
+ const t=translations[lang],q=t.questions[index];
+ $("round").textContent=`${t.question} ${index+1} / 5`;
+ $("points").textContent=score+" "+t.points;
+ $("bar").style.width=(index/5*100)+"%";
+ $("category").textContent=t.category;
+ $("question").textContent=q[0];
+ $("hint").textContent=t.hint;
+ $("options").innerHTML="";
+ q.slice(1).forEach((answer,i)=>{
+  const b=document.createElement("button");
+  b.className="option";b.textContent=answer;
+  b.addEventListener("click",()=>choose(i,b));
+  $("options").appendChild(b);
+ });
+}
+function choose(choice,button){
+ const buttons=$("options").querySelectorAll("button");
+ buttons.forEach(b=>b.disabled=true);
+ button.classList.add("selected");
+ answers.push(choice);
+ // Temporary demo benchmark, not real player statistics.
+ const demoPopular=[0,2,0,0,1];
+ if(choice===demoPopular[index])score+=20;
+ $("points").textContent=score+" "+translations[lang].points;
+ $("bar").style.width=((index+1)/5*100)+"%";
+ setTimeout(()=>{
+  index++;
+  if(index<5)renderQuestion();else finish();
+ },450);
+}
+function finish(){
+ show("result");
+ const t=translations[lang];
+ $("score").textContent=score+"%";
+ $("resultTitle").innerHTML=t.resultTitle;
+ $("resultText").textContent=t.resultText;
+ $("finished").textContent=t.finished;
+ $("shareText").textContent=t.shareText;
+ $("share").textContent=t.share;
+ $("again").textContent=t.again;
+ $("demoNote").textContent=t.demo;
+ $("bar").style.width="100%";
+}
+async function shareResult(){
+ const t=translations[lang];
+ const message=`VIRAL MIND 🧠\nMy demo score: ${score}%!\nCan you beat me?`;
+ if(navigator.share){
+  try{await navigator.share({title:"VIRAL MIND",text:message,url:location.href});return}
+  catch(e){if(e.name==="AbortError")return}
+ }
+ try{
+  await navigator.clipboard.writeText(message+"\n"+location.href);
+  $("share").textContent="✓ Copied!";
+ }catch(e){
+  prompt("Copy your result:",message+"\n"+location.href);
+ }
+}
+$("start").addEventListener("click",startGame);
+$("again").addEventListener("click",startGame);
+$("share").addEventListener("click",shareResult);
+setLanguage("en");
+</script>
+</body>
+</html>
